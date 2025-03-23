@@ -75,3 +75,679 @@
 </body>
 </html>
 
+<script>
+    // بيانات المنتجات
+const products = [
+// البانتس
+    {
+        id: "Cp1",
+        productSection: "Pants",
+        brand: "JDY",
+        name: " high waisted crop wide fit trousers in dark green",
+        undertone: "cool",
+        color: "KAMBABA",
+        image: "CIMG/207604179-3.png",
+        link: "https://www.asos.com/jdy/jdy-high-waisted-crop-wide-fit-trousers-in-dark-green/prd/207604179#colourWayId-207604180"
+    },
+    {
+        id: "Cp2",
+        productSection: "Pants",
+        brand: "ASOS",
+        name: "tailored relaxed straight leg trousers in dark cherry",
+        undertone: "warm",
+        color: "Dark Cherry",
+        image: "CIMG/207583252-1-darkcherry.png",
+        link: "https://www.asos.com/asos-design/asos-design-tailored-relaxed-straight-leg-trousers-in-dark-cherry/prd/207583252?acquisitionsource=pasteboard"
+    },
+    {
+        id: "Cp3",
+        productSection: "Pants",
+        brand: "H&M",
+        name: "Linen-Blend Trousers",
+        undertone: "neutral",
+        color: "Light Dusty Beige",
+        image: "CIMG/1c1dfbb3-89a6-4fe6-a654-620188edbaba.png",
+        link: "https://www.namshi.com/saudi-ar/buy-h-m-linen-blend-trousers/Z8A58D5FE7B4FC334FE64Z/p/?utm_campaign=o566_all_ios_both_organic_share_share-elements_open_link_na_na%26utm_source%3Dnamfam_RF820183MQ"
+    },
+   
+    {
+        id: "Cp4",
+        productSection: "Pants",
+        brand: "4th & Reckless ",
+        name: " tailored wide leg trousers co-ord in blue",
+        undertone: "cool",
+        color: "Dusty Blue",
+        image: "CIMG/207686527-1-blue.png",
+        link: "https://www.asos.com/4th-reckless/4th-reckless-tailored-wide-leg-trousers-co-ord-in-blue/prd/207686527#ctaref-we%20recommend%20carousel_12&featureref1-we%20recommend%20pers"
+    },
+    {
+        id: "Cp5",
+        productSection: "Pants",
+        brand: "ASOS",
+        name: "Petite cheesecloth pull on trousers in olive",
+        undertone: "warm",
+        color: "Olive",
+        image: "CIMG/207815932-1-olive.png",
+        link: "https://www.asos.com/asos-design/asos-design-petite-cheesecloth-pull-on-trousers-in-olive/prd/207815932#colourWayId-207815933"
+    },
+    {
+        id: "Cp21",
+        productSection: "Pants",
+        brand: "ASOS",
+        name: "wide leg trouser with floral print co-ord in khaki",
+        undertone: "neutral",
+        color: "KHAKI",
+        image: "CIMG/208424772-2.PNG",
+        link: "https://www.asos.com/asos-design/asos-design-shrunken-revere-shirt-and-trouser-co-ord-in-floral-print-in-khaki/grp/208488683#colourWayId-208424775&productId-208424772"
+    },
+    {
+        id: "Cp6",
+        productSection: "Pants",
+        brand: "YAS",
+        name: "floral printed plunge front plisse top and trousers set in red and pink",
+        undertone: "neutral",
+        color: "Bittersweet",
+        image: "CIMG/208071975-3.png",
+        link: "https://www.asos.com/yas/yas-floral-printed-plisse-trouser-co-ord-in-red-and-pink/prd/208071782"
+    },
+
+
+
+//التوبز
+   {
+    id: "Cp7",
+    productSection: "Tops",
+    brand: "Collusion ",
+    name: "long sleeve bold stripe rugby top in multi",
+    undertone: "cool",
+    color: "BURGUNDY STRIPE",
+    image: "CIMG/207875049-1-burgundystripe.PNG",
+    link: "https://www.asos.com/collusion/collusion-long-sleeve-bold-stripe-rugby-top-in-multi/prd/207875049?acquisitionsource=pasteboard"
+},
+{
+    id: "Cp8",
+    productSection: "Tops",
+    brand: "ZARA",
+    name: "Pajama style shirt made of 100% cotton threads",
+    undertone: "cool",
+    color: "pastel blue",
+    image: "CIMG/09035053423-p.PNG",
+    link: "https://www.zara.com/sa/ar/-%D9%82-%D9%85-%D9%8A-%D8%B5---%D8%B7-%D8%B1-%D8%A7-%D8%B2---%D8%A8-%D9%8A-%D8%AC-%D8%A7-%D9%85-%D8%A9---%D9%82-%D8%B7-%D9%86--p09035053.html?v1=447534450&v2=2420369"
+},
+{
+    id: "Cp9",
+    productSection: "Tops",
+    brand: "STRADIVARIUS",
+    name: "Contrast poplin polo shirt",
+    undertone: "neutral",
+    color: "Navy blue ",
+    image: "CIMG/02637417010-c.PNG",
+    link: "https://www.stradivarius.com/sa/en/contrast-poplin-polo-shirt-l02637417?categoryId=1020047030&colorId=010&pelement=430666213"
+},
+{
+    id: "Cp10",
+    productSection: "Tops",
+    brand: "ZARA",
+    name: "Satin-look printed shirt",
+    undertone: "warm",
+    color: "Pearl Satin with Navy Blue Tree Pattern",
+    image: "CIMG/02483125080-p.png",
+    link: "https://www.zara.com/sa/ar/-%D9%82-%D9%85-%D9%8A-%D8%B5---%D8%A8-%D8%B7-%D8%A8-%D8%B9-%D8%A9---%D8%A8-%D9%85-%D8%B8-%D9%87-%D8%B1---%D8%B3-%D8%A7-%D8%AA-%D8%A7-%D9%86-%D9%8A--p02483125.html?v1=428556799&v2=2420369"
+},
+{
+    id: "Cp11",
+    productSection: "Tops",
+    brand: "Topshop",
+    name: "knitted bardot jumper in cobalt blue",
+    undertone: "warm",
+    color: "Blue",
+    image: "\CIMG/208352999-3.PNG",
+    link: "https://www.asos.com/topshop/topshop-knitted-bardot-jumper-in-cobalt-blue/prd/208352999?acquisitionsource=pasteboard"
+},
+{
+    id: "Cp12",
+    productSection: "Tops",
+    brand: "STRADIVARIUS",
+    name: "Short sleeve linen blend shirt",
+    undertone: "neutral",
+    color: "Pastel Green",
+    image: "CIMG/02006478055-c.PNG",
+    link: "https://www.stradivarius.com/sa/en/short-sleeve-linen-blend-shirt-l02006478?colorId=055&pelement=429937828"
+},
+{
+    id: "Cp20",
+    productSection: "Tops",
+    brand: "ASOS",
+    name: " puff sleeve top with shirring detail in stripe",
+    undertone: "neutral",
+    color: "Stripe",
+    image: "CIMG/208263169-4.png",
+    link: "https://www.asos.com/asos-design/asos-design-puff-sleeve-top-with-shirring-detail-in-stripe/prd/208263169?acquisitionsource=pasteboard"
+},
+
+//الدرسيز
+
+{
+    id: "Cp13",
+    productSection: "Dresses",
+    brand: " ASOS",
+    name: "ASOS DESIGN high neck sleeveless midi dress with draped neck in sage green",
+    undertone: "neutral",
+    color: "SAGE GREEN",
+    image: "CIMG/207869742-1-sagegreen.PNG",
+    link: "https://www.asos.com/asos-design/asos-design-high-neck-sleeveless-midi-dress-with-draped-neck-in-sage-green/prd/207869742?acquisitionsource=whatsapp"
+},
+{
+    id: "Cp14",
+    productSection: "Dresses",
+    brand: " Topshops",
+    name: "ruffle sleeve volume hem maxi dress in olive",
+    undertone: "warm",
+    color: "OLIVE",
+    image: "CIMG/207475830-1-olive.avif",
+    link: "https://www.asos.com/topshop/topshop-ruffle-sleeve-volume-hem-maxi-dress-in-olive/prd/207475830?acquisitionsource=pasteboard"
+},
+{
+    id: "Cp15",
+    productSection: "Dresses",
+    brand: "ZARA",
+    name: "Round neck, sleeveless dress. Pleated hem.",
+    undertone: "neutral",
+    color: "pillor box red",
+    image: "CIMG/04192034691-p.png",
+    link: "https://www.zara.com/sa/ar/-%D9%81-%D8%B3-%D8%AA-%D8%A7-%D9%86---%D8%B7-%D9%88-%D9%8A-%D9%84---%D9%85-%D9%85-%D8%B2-%D9%88-%D8%AC---%D9%85-%D8%BA-%D8%B2-%D9%88-%D9%84--p04192034.html?v1=422701476&v2=2420896"
+},  
+{
+    id: "Cp16",
+    productSection: "Dresses",
+    brand: "ASOS",
+    name: "bardot midi dress with lace inserts in floral print",
+    undertone: "cool",
+    color: "PRINT",
+    image: "CIMG/207443574-1-print.png",
+    link: "https://www.asos.com/asos-design/asos-design-bardot-midi-dress-with-lace-inserts-in-floral-print/prd/207443574?acquisitionsource=pasteboard"
+},
+{
+    id: "Cp17",
+    productSection: "Dresses",
+    brand: "MANGO",
+    name: "Pleated dress with gradual effect",
+    undertone: "warm",
+    color: "Coffe",
+    image: "CIMG/87034782_33.png",
+    link: "https://shop.mango.com/sa/ar/p/%D8%A7%D9%84%D9%86%D8%B3%D8%A7%D8%A1/%D9%81%D8%B3%D8%A7%D8%AA%D9%8A%D9%86-%D9%88%D8%A7%D9%81%D8%B1%D9%88%D9%84%D8%A7%D8%AA/%D9%81%D8%B3%D8%AA%D8%A7%D9%86-%D9%85%D8%B7%D9%88%D9%8A-%D8%A8%D9%85%D9%88%D8%AB%D8%B1-%D8%AA%D8%AF%D8%B1%D9%8A%D8%AC%D9%8A_87034782"
+},
+{
+    id: "Cp18",
+    productSection: "Dresses",
+    brand: "MANGO",
+    name: "Midi wrap dress with knot",
+    undertone: "cool",
+    color: "Black",
+    image: "CIMG/87086719_99.png",
+    link: "https://shop.mango.com/sa/ar/p/%D8%A7%D9%84%D9%86%D8%B3%D8%A7%D8%A1/%D9%81%D8%B3%D8%A7%D8%AA%D9%8A%D9%86-%D9%88%D8%A7%D9%81%D8%B1%D9%88%D9%84%D8%A7%D8%AA/%D9%81%D8%B3%D8%AA%D8%A7%D9%86-%D9%85%D9%84%D9%81%D9%88%D9%81-%D9%85%D8%AA%D9%88%D8%B3%D8%B7-%D8%A7%D9%84%D8%B7%D9%88%D9%84-%D8%A8%D8%B9%D9%82%D8%AF%D8%A9_87086719"
+},
+{
+    id: "Cp19",
+    productSection: "Dresses",
+    brand: "STRADIVARIUS",
+    name: "Funnel neck midi dress",
+    undertone: "neutral",
+    color: "Teal",
+    image: "CIMG/02363128055-c.PNG",
+    link: "https://www.stradivarius.com/sa/en/funnel-neck-midi-dress-l02363128?categoryId=1020668016&colorId=055&pelement=439699638"
+},   
+    ];
+// استرجاع حالة المفضلة من التخزين المحلي
+function getFavorites() {
+    return JSON.parse(localStorage.getItem("favorites")) || [];
+}
+
+// تحديث حالة المفضلة في التخزين المحلي
+function saveFavorites(favorites) {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+}
+
+// توليد المنتجات ديناميكيًا داخل الأقسام
+function generateProducts() {
+    products.forEach(product => {
+        const container = document.getElementById(product.productSection);
+        if (container) {
+            container.innerHTML += `
+                <div class="product ${product.undertone.toLowerCase()}" id="${product.id}">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                        <button class="favorite-btn" data-id="${product.id}">
+                            <i class='bx bxs-heart'></i>
+                        </button>
+                    </div>
+                    <span class="brand">${product.brand}</span>
+                    <h4>${product.name}</h4>
+                    <span class="undertone">Undertone: ${product.undertone}</span>
+                    <span class="color">Material & Color: ${product.color}</span>
+                    <a href="${product.link}" target="_blank">
+                        <button class="view-btn">View Product</button>
+                    </a>
+                </div>
+            `;
+        }
+    });
+
+    // استدعاء تشغيل زر المفضلة بعد إضافة المنتجات
+    setupFavoriteButtons();
+}
+
+// تشغيل زر المفضلة وتخزين البيانات
+function setupFavoriteButtons() {
+    let favorites = getFavorites();
+    
+    document.querySelectorAll(".favorite-btn").forEach(button => {
+        const productId = button.getAttribute("data-id");
+
+        // تفعيل الزر إذا كان المنتج في المفضلة
+        if (favorites.includes(productId)) {
+            button.classList.add("active");
+        }
+
+        button.addEventListener("click", function() {
+            if (favorites.includes(productId)) {
+                favorites = favorites.filter(id => id !== productId);
+                this.classList.remove("active");
+            } else {
+                favorites.push(productId);
+                this.classList.add("active");
+            }
+
+            saveFavorites(favorites);
+        });
+    });
+}
+
+// تحريك السلايدر
+function moveSlider(productSectionId, direction) {
+    const container = document.getElementById(productSectionId);
+    const scrollAmount = 270; 
+
+    container.scrollBy({
+        left: direction * scrollAmount,
+        behavior: 'smooth'
+    });
+}
+
+// تحميل المنتجات عند فتح الصفحة
+document.addEventListener("DOMContentLoaded", generateProducts);
+
+
+
+
+//فلتر الاندرتون 
+function openFilter() {
+    document.getElementById("filterSidebar").classList.add("open");
+}
+
+function closeFilter() {
+    document.getElementById("filterSidebar").classList.remove("open");
+}
+
+function toggleDropdown(id) {
+    const dropdown = document.getElementById(id);
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
+/* فلتر الااندرتون */
+function applyFilter() {
+    const undertones = [...document.querySelectorAll(".undertone:checked")].map(e => e.value.toLowerCase());
+    const products = document.querySelectorAll(".product");
+
+    let isFiltered = false;
+    products.forEach(product => {
+        product.style.display = "none";
+
+        const hasMatchingUndertone = undertones.length === 0 || undertones.some(tone => product.classList.contains(tone));
+
+        if (hasMatchingUndertone) {
+            product.style.display = "block";
+            isFiltered = true;
+        }
+    });
+
+    const messageElement = document.getElementById('filterMessage');
+    if (!isFiltered) {
+        messageElement.textContent = "لا توجد نتائج مطابقة للفلاتر التي اخترتها.";
+    } else {
+        messageElement.textContent = "";
+    }
+}
+
+function moveSlider(sliderId, direction) {
+    let slider = document.getElementById(sliderId);
+    let scrollAmount = 270;
+
+    slider.style.transition = "transform 0.3s ease";
+    slider.scrollBy({
+        left: direction * scrollAmount,
+        behavior: "smooth"
+    });
+}
+</script>
+<style>
+        /* خلفية الموقع بتدرجات مطابقة للصورة */
+        body {
+        font-family: 'Arial', sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        background-color: rgb(255, 244, 223);
+        color: #333;
+    }
+    
+    /* اسم الفئة */
+    .hero h2 {
+        font-size: 100px;
+        font-family: 'Calibri';
+        color: #333;
+    }
+    
+    .products h2 {
+        font-size: 40px;
+        font-family: 'Calibri';
+        color: #333;
+        margin-top: 20px;
+    }
+    
+    /* --------------------------------------------------- الفلتر */
+    .filter-sidebar.open {
+        right: 0;
+    }
+    
+    .dropdown {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+    
+    .dropdown-content {
+        display: none;
+        margin-top: 10px;
+        text-align: left;
+    }
+    
+    .dropdown-content label {
+        display: block;
+        margin: 5px 0;
+    }
+    
+    /* ---------------------------------------------- زر الابديت */
+    button {
+        padding: 10px;
+        background: #333;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 30px;
+    }
+    
+    /* صفحة الفلتر -------------------------------------------- */
+    /* تحديد حجم الأيقونة فقط */
+    .filter-btn i {
+        font-size: 1.5rem; /* يمكنك تغيير القيمة حسب الحجم الذي تريده */
+    }
+    
+    /* تنسيق الزر */
+    .filter-btn {
+        padding: 20px;
+        background-color: #333;
+        border: none;
+        cursor: pointer;
+        color: white;
+        border-radius: 5px;
+        margin: 16px;
+        font-size: 1rem;
+        display: block;
+        width: fit-content;
+        margin-right: 15px;
+        margin-left: auto;
+        margin-top: 20px;
+    }
+    
+    
+    /* تنسيق الزر في الجهة العلوية اليسرى */
+    
+    /* ------------------------------------------ خلفية صفحة الفلتر */
+    .filter-sidebar {
+        position: fixed;
+        right: -300px;
+        top: 0;
+        width: 250px;
+        height: 40%;
+        background: #f4f4f4;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.4);
+        padding: 20px;
+        transition: right 0.3s ease;
+        z-index: 1000;
+        background: whitesmoke;
+        border-radius: 25px 0 25px 25px;
+        border: none;
+    }
+    
+    .filter-sidebar h3 {
+        margin-bottom: 30px;
+        color: #333;
+        text-align: left;
+        margin-top: 20%;
+    }
+    
+    .filter-sidebar label {
+        display: block;
+        margin-bottom: 10px;
+    }
+    
+    /* ---------------------------------------- زر الاغلاق */
+    .close-btn {
+        cursor: pointer;
+        color: rgb(168, 20, 20);
+        font-size: 20px;
+        display: block;
+        text-align: left;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+    
+    .category-section {
+        margin-bottom: 40px;
+    }
+    
+    .category-section h3 {
+        font-size: 40px;
+        color: #333;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+        padding-bottom: 10px; 
+    }
+    .product-container {
+        display: flex;
+        gap: 20px; /* المسافة بين المنتجات */
+        overflow-x: auto; /* تمكين التمرير الأفقي */
+        scroll-behavior: smooth;
+        padding: 10px 0;
+    }
+    
+    
+    /* ------------------------------------------------- مظهر بوكس المنتجات */
+    .product-list {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+    
+    /* ✅ ضبط الـ product بحيث يكون الزر داخل الصورة */
+    .product {
+        background: rgb(232, 217, 190);
+        padding: 15px;
+        border-radius: 10px;
+        width: 250px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        flex: 0 0 auto;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 550px;
+    }
+    
+    .product:hover {
+        transform: scale(1.05);
+    }
+    
+    /* ✅ ضبط الصورة */
+    .product img {
+        width: 100%;
+        border-radius: 10px;
+    }
+    
+    .product h4 {
+        color: #2e2e30;
+        text-align: center;
+    }
+    
+    .product .color {
+        display: block;
+        font-size: 17px;
+        color: #555;
+    }
+    
+    .product span {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 15px;
+    }
+    
+    /* ✅ الحاوية الثابتة للأزرار */
+    .product-footer {
+        position: absolute;
+        bottom: 15px;
+        left: 15px;
+        right: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 40px;
+    }
+    
+    /* Slider Buttons */
+    .slider-buttons {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+        gap: 10px;
+    }
+    
+    .slider-btn {
+        background-color: #423025;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .slider-btn:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+    
+    /* ✅ زر المفضلة يكون داخل الصورة بالزاوية العلوية اليمنى */
+    .favorite-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+    }
+    
+    .favorite-btn i {
+        color: rgb(133, 133, 133);
+        transition: color 0.3s ease-in-out, transform 0.3s ease-in-out; /* إضافة تأثير الانتقال للـ transform */
+    }
+    
+    .favorite-btn.active i {
+        color: rgb(220, 2, 2);
+        transform: scale(1.2); /* تكبير الأيقونة */
+    }
+    
+    /* ✅ جعل زر "View Product" يأخذ مساحة مناسبة */
+    .view-btn {
+        background-color: #8a6751;
+        color: white;
+        border: none;
+        padding: 12px 15px;
+        border-radius: 15px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+        margin-top: auto;
+    }
+    
+    .view-btn:hover {
+        background-color: #5c3e2a;
+    }
+    
+    /* ✅ إخفاء شريط التمرير أسفل السلايدر */
+    .product-necklaces,
+    .product-Earrings,
+    .product-Bracelets,
+    .product-Rings {
+        display: flex;
+        overflow-x: auto; /* لجعل التمرير أفقي */
+        gap: 30px;
+        scroll-behavior: smooth;
+        padding: 20px;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE & Edge */
+    }
+    
+    .product-necklaces::-webkit-scrollbar,
+    .product-Earrings::-webkit-scrollbar,
+    .product-Bracelets::-webkit-scrollbar,
+    .product-Rings::-webkit-scrollbar {
+        display: none; /* إخفاء شريط التمرير */
+    }
+    
+    /* -------------------------------------------------------------- الفوتر */
+    
+      #footer {
+        background-color: #383848;
+        text-align: center;
+        color: #fff;
+        padding: 15px 0;
+        font-size: 14px;
+      }
+    
+    
+    /* استجابة للشاشات الصغيرة */
+    @media (max-width: 768px) {
+        .product-list {
+            flex-direction: column;
+        }
+    
+        .view-btn {
+            width: 100%; /* جعل الزر يشغل العرض بالكامل في الشاشات الصغيرة */
+        }
+    
+        .slider-btn {
+            font-size: 16px; /* تقليل حجم الخط في الأزرار */
+        }
+    }
+</style>
+
