@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="jewellry.js"></script>
+    <link rel="stylesheet" href="Jewellry.page.css">
+    <title>Jewellery</title>
+</head>
+
+<body>
+
+    <!-- زر فتح الفلتر -->
+    <div class="filter">
+        <button class="filter-btn" onclick="openFilter()"><i class='bx bx-filter'></i></button>
+    </div>
+
+    <!-- الفلتر الجانبي -->
+    <div class="filter-sidebar" id="filterSidebar">
+        <span class="close-btn" onclick="closeFilter()">X</span>
+        <h3>Filter by Jewellery</h3>
+
+        <div class="dropdown">
+            <label onclick="toggleDropdown('undertone')">Undertone ▼</label>
+            <div class="dropdown-content" id="undertone">
+                <label><input type="checkbox" name="undertone" id="cool" value="Cool" class="undertone"> Cool</label>
+                <label><input type="checkbox" name="undertone" id="neutral" value="Neutral" class="undertone"> Neutral</label>
+                <label><input type="checkbox" name="undertone" id="warm" value="Warm" class="undertone"> Warm</label>
+            </div>
+        </div>
+
+        <button onclick="applyFilter()">Done</button>
+    </div>    
+
+    <!-- أقسام المنتجات -->
+    <div class="category-section">
+        <h3>Necklaces</h3>
+        <div class="product-slider">
+            <div class="product-container" id="necklaces"></div>
+        </div>
+        <div class="slider-buttons">
+            <button class="slider-btn" onclick="moveSlider('necklaces', -1)">⮜</button>
+            <button class="slider-btn" onclick="moveSlider('necklaces', 1)">⮞</button>
+        </div>
+    </div>
+    
+    <div class="category-section">
+        <h3>Earrings</h3>
+        <div class="product-slider">
+            <div class="product-container" id="earrings"></div>
+        </div>
+        <div class="slider-buttons">
+            <button class="slider-btn" onclick="moveSlider('earrings', -1)">⮜</button>
+            <button class="slider-btn" onclick="moveSlider('earrings', 1)">⮞</button>
+        </div>
+    </div>
+    
+    <div class="category-section">
+        <h3>Bracelets</h3>
+        <div class="product-slider">
+            <div class="product-container" id="bracelets"></div>
+        </div>
+        <div class="slider-buttons">
+            <button class="slider-btn" onclick="moveSlider('bracelets', -1)">⮜</button>
+            <button class="slider-btn" onclick="moveSlider('bracelets', 1)">⮞</button>
+        </div>
+    </div>
+    
+    <div class="category-section">
+        <h3>Rings</h3>
+        <div class="product-slider">
+            <div class="product-container" id="rings"></div>
+        </div>
+        <div class="slider-buttons">
+            <button class="slider-btn" onclick="moveSlider('rings', -1)">⮜</button>
+            <button class="slider-btn" onclick="moveSlider('rings', 1)">⮞</button>
+        </div>
+    </div>
+    <footer id="footer">
+        <p>Copyright &copy; 2025 All rights reserved | made by Glow Gluide Team</a> </b></p>
+    </footer>    
+    
+<p id="filterMessage"></p>
+</body>
+</html>
+<style>
+        /* خلفية الموقع بتدرجات مطابقة للصورة */
+        body {
+        font-family: 'Arial', sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        background-color: rgb(255, 244, 223);
+        color: #333;
+    }
+    
+    /* اسم الفئة */
+    .hero h2 {
+        font-size: 100px;
+        font-family: 'Calibri';
+        color: #333;
+    }
+    
+    .products h2 {
+        font-size: 40px;
+        font-family: 'Calibri';
+        color: #333;
+        margin-top: 20px;
+    }
+    
+    /* --------------------------------------------------- الفلتر */
+    .filter-sidebar.open {
+        right: 0;
+    }
+    
+    .dropdown {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+    
+    .dropdown-content {
+        display: none;
+        margin-top: 10px;
+        text-align: left;
+    }
+    
+    .dropdown-content label {
+        display: block;
+        margin: 5px 0;
+    }
+    
+    /* ---------------------------------------------- زر الابديت */
+    button {
+        padding: 10px;
+        background: #333;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 30px;
+    }
+    
+    /* صفحة الفلتر -------------------------------------------- */
+    /* تحديد حجم الأيقونة فقط */
+    .filter-btn i {
+        font-size: 1.5rem; /* يمكنك تغيير القيمة حسب الحجم الذي تريده */
+    }
+    
+    /* تنسيق الزر */
+    .filter-btn {
+        padding: 20px;
+        background-color: #333;
+        border: none;
+        cursor: pointer;
+        color: white;
+        border-radius: 5px;
+        margin: 16px;
+        font-size: 1rem;
+        display: block;
+        width: fit-content;
+        margin-right: 15px;
+        margin-left: auto;
+        margin-top: 20px;
+    }
+    
+    
+    /* تنسيق الزر في الجهة العلوية اليسرى */
+    
+    /* ------------------------------------------ خلفية صفحة الفلتر */
+    .filter-sidebar {
+        position: fixed;
+        right: -300px;
+        top: 0;
+        width: 250px;
+        height: 40%;
+        background: #f4f4f4;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.4);
+        padding: 20px;
+        transition: right 0.3s ease;
+        z-index: 1000;
+        background: whitesmoke;
+        border-radius: 25px 0 25px 25px;
+        border: none;
+    }
+    
+    .filter-sidebar h3 {
+        margin-bottom: 30px;
+        color: #333;
+        text-align: left;
+        margin-top: 20%;
+    }
+    
+    .filter-sidebar label {
+        display: block;
+        margin-bottom: 10px;
+    }
+    
+    /* ---------------------------------------- زر الاغلاق */
+    .close-btn {
+        cursor: pointer;
+        color: rgb(168, 20, 20);
+        font-size: 20px;
+        display: block;
+        text-align: left;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+    
+    .category-section {
+        margin-bottom: 40px;
+    }
+    
+    .category-section h3 {
+        font-size: 40px;
+        color: #333;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+        padding-bottom: 10px; 
+    }
+    .product-container {
+        display: flex;
+        gap: 20px; /* المسافة بين المنتجات */
+        overflow-x: auto; /* تمكين التمرير الأفقي */
+        scroll-behavior: smooth;
+        padding: 10px 0;
+    }
+    
+    
+    /* ------------------------------------------------- مظهر بوكس المنتجات */
+    .product-list {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+    
+    /* ✅ ضبط الـ product بحيث يكون الزر داخل الصورة */
+    .product {
+        background: rgb(232, 217, 190);
+        padding: 15px;
+        border-radius: 10px;
+        width: 250px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        flex: 0 0 auto;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 550px;
+    }
+    
+    .product:hover {
+        transform: scale(1.05);
+    }
+    
+    /* ✅ ضبط الصورة */
+    .product img {
+        width: 100%;
+        border-radius: 10px;
+    }
+    
+    .product h4 {
+        color: #2e2e30;
+        text-align: center;
+    }
+    
+    .product .color {
+        display: block;
+        font-size: 17px;
+        color: #555;
+    }
+    
+    .product span {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 15px;
+    }
+    
+    /* ✅ الحاوية الثابتة للأزرار */
+    .product-footer {
+        position: absolute;
+        bottom: 15px;
+        left: 15px;
+        right: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 40px;
+    }
+    
+    /* Slider Buttons */
+    .slider-buttons {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+        gap: 10px;
+    }
+    
+    .slider-btn {
+        background-color: #423025;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .slider-btn:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+    
+    /* ✅ زر المفضلة يكون داخل الصورة بالزاوية العلوية اليمنى */
+    .favorite-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+    }
+    
+    .favorite-btn i {
+        color: rgb(133, 133, 133);
+        transition: color 0.3s ease-in-out, transform 0.3s ease-in-out; /* إضافة تأثير الانتقال للـ transform */
+    }
+    
+    .favorite-btn.active i {
+        color: rgb(220, 2, 2);
+        transform: scale(1.2); /* تكبير الأيقونة */
+    }
+    
+    /* ✅ جعل زر "View Product" يأخذ مساحة مناسبة */
+    .view-btn {
+        background-color: #8a6751;
+        color: white;
+        border: none;
+        padding: 12px 15px;
+        border-radius: 15px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+        margin-top: auto;
+    }
+    
+    .view-btn:hover {
+        background-color: #5c3e2a;
+    }
+    
+    /* ✅ إخفاء شريط التمرير أسفل السلايدر */
+    .product-necklaces,
+    .product-Earrings,
+    .product-Bracelets,
+    .product-Rings {
+        display: flex;
+        overflow-x: auto; /* لجعل التمرير أفقي */
+        gap: 30px;
+        scroll-behavior: smooth;
+        padding: 20px;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE & Edge */
+    }
+    
+    .product-necklaces::-webkit-scrollbar,
+    .product-Earrings::-webkit-scrollbar,
+    .product-Bracelets::-webkit-scrollbar,
+    .product-Rings::-webkit-scrollbar {
+        display: none; /* إخفاء شريط التمرير */
+    }
+    
+    /* -------------------------------------------------------------- الفوتر */
+    
+      #footer {
+        background-color: #383848;
+        text-align: center;
+        color: #fff;
+        padding: 15px 0;
+        font-size: 14px;
+      }
+    
+    
+    /* استجابة للشاشات الصغيرة */
+    @media (max-width: 768px) {
+        .product-list {
+            flex-direction: column;
+        }
+    
+        .view-btn {
+            width: 100%; /* جعل الزر يشغل العرض بالكامل في الشاشات الصغيرة */
+        }
+    
+        .slider-btn {
+            font-size: 16px; /* تقليل حجم الخط في الأزرار */
+        }
+    }
+</style>
+<script>
+    // بيانات المنتجات
+const products = [
+    {
+        id: "Jp1",
+        productSection: "necklaces",
+        brand: "Damas AL Qasr",
+        name: "AL Qasr Zahra Necklace in 18K Rose Gold",
+        undertone: "Neutral",
+        color: "Rose Gold",
+        image: "IMG/JP3.jpg",
+        link: "https://www.damasjewellery.com/sa-en/jewellery/necklaces/al-qasr-zahra-necklace-in-18k-rose-gold-alq-109-gd-nc-rwl/"
+    },
+    {
+        id: "Jp2",
+        productSection: "necklaces",
+        brand: "FAYENDRA",
+        name: "925 Pure Silver Gold Plated Necklace Set with White Lobe",
+        undertone: "Warm",
+        color: "Yellow gold plated",
+        image: "IMG/JP10.jpg",
+        link: "https://fayendra.com/ar_001/shop/ncl02wcz00000c149-925-398405?page=6&category=244#attr=424184,420693"
+    },
+    {
+        id: "Jp3",
+        productSection: "necklaces",
+        brand: "FAYENDRA",
+        name: "925 Solid Silver Plated Rhodium Plated Necklace Coloured Zircon",
+        undertone: "Cool",
+        color: "White gold plated, Colored stones",
+        image: "IMG/JP11.jpg",
+        link: "https://fayendra.com/ar_001/shop/ncl01mls00000c152-925-398420?page=6&category=244#attr=424199,420708"
+    },
+    {
+        id: "Jp4",
+        productSection: "necklaces",
+        brand: "FAYENDRA",
+        name: "925 Pure Silver Gold Plated Necklace Set with White Lobe",
+        undertone: "Warm",
+        color: "Yellow gold plated, White Stones",
+        image: "IMG/JP21.jpg",
+        link: "https://fayendra.com/ar_001/shop/ncl02wcz00000c162-925-398461?page=4&category=244#attr=424240,420749"
+    },
+    {
+        id: "Jp5",
+        productSection: "necklaces",
+        brand: "FAYENDRA",
+        name: "925 Solid Silver Necklace Plated Rhodium Studded with Emerald Zircon and White Lobe",
+        undertone: "Cool",
+        color: "White gold plated, Zircon Green",
+        image: "IMG/JP24.jpg",
+        link: "https://fayendra.com/ar_001/shop/ncl01emr00wczc190-925-398582?category=244&attrib=4-14&attrib=3-13#attr=424361,420870"
+    },
+    {
+        id: "Jp6",
+        productSection: "earrings",
+        brand: "VAN CLEEF & ARPELS",
+        name: "Vintage Alhambra earrings",
+        undertone: "Warm",
+        color: "yellow gold, Agate",
+        image: "IMG/JP4.png",
+        link: "https://www.vancleefarpels.com/sa/ar/collections/jewelry/alhambra/vcarp9sz00---vintage-alhambra-earrings.html"
+    },
+    {
+        id: "Jp7",
+        productSection: "earrings",
+        brand: "VAN CLEEF & ARPELS",
+        name: "Sweet Alhambra earstuds",
+        undertone: "Neutral",
+        color: "rose gold, Carnelian",
+        image: "IMG/JP9.png",
+        link: "https://www.vancleefarpels.com/sa/en/collections/jewelry/alhambra/vcarn6bo00---sweet-alhambra-earstuds.html"
+    },
+    {
+        id: "Jp8",
+        productSection: "earrings",
+        brand: "VAN CLEEF & ARPELS",
+        name: "Vintage Alhambra earrings",
+        undertone: "Warm",
+        color: "yellow gold, Onyx",
+        image: "IMG/JP14.png",
+        link: "https://www.vancleefarpels.com/sa/en/collections/jewelry/alhambra/vcara44200---vintage-alhambra-earrings.html"
+    },
+    {
+        id: "Jp9",
+        productSection: "earrings",
+        brand: "FAYENDRA",
+        name: "925 Solid Silver Plated Rhodium Earrings Studded",
+        undertone: "Cool",
+        color: "white gold, Zircon(Diamond Color)",
+        image: "IMG/JP16.jpeg",
+        link: "https://fayendra.com/ar_001/shop/ear01cit00wczc528-925-342856?page=28&category=230&attrib=4-14#attr=311882,308495"
+    },
+    {
+        id: "Jp10",
+        productSection: "earrings",
+        brand: "VAN CLEEF & ARPELS",
+        name: "Vintage Alhambra earrings",
+        undertone: "Warm",
+        color: "yellow gold",
+        image: "IMG/JP22.png",
+        link: "https://www.vancleefarpels.com/sa/ar/collections/jewelry/alhambra/vcarp3jl00---vintage-alhambra-earrings.html"
+    },
+    {
+        id: "Jp11",
+        productSection: "earrings",
+        brand: "FAYENDRA",
+        name: "925 gold-plated pure silver earrings studded",
+        undertone: "Warm",
+        color: "Yellow gold plated, Zircon Yellow",
+        image: "IMG/JP25.jpg",
+        link: "https://fayendra.com/ar_001/shop/ear02cit00wczd041-925-363773?page=3&category=230&attrib=4-15#attr=366106,365956"
+    },
+    {
+        id: "Jp12",
+        productSection: "earrings",
+        brand: "MOH",
+        name: "Elegant and soft earrings",
+        undertone: "Cool",
+        color: "plated with 18k gold with 925 sterling silver base",
+        image: "IMG/JP26.png",
+        link: "https://www.mohjewelry.com/ar/collections/earrings-1/products/0207-1?variant=46250156261543"
+    },
+    {
+        id: "Jp13",
+        productSection: "earrings",
+        brand: "FAYENDRA",
+        name: "925 Solid Silver Plated Rhodium Plated Earrings with Canary Zircon Diamond and White Lobe",
+        undertone: "Cool",
+        color: "white gold plated, Zircon yellow (diamond)",
+        image: "IMG/JP28.jpg",
+        link: "https://fayendra.com/ar_001/shop/ear01cit00wczc692-925-352586?page=20&category=230&attrib=4-14#attr=332958,355323,327858,358136"
+    },
+    {
+        id: "Jp14",
+        productSection: "bracelets",
+        brand: "SWAROSVKI",
+        name: "Millenia bracelets",
+        undertone: "warm",
+        color: "Material & Color: Gold Paint / Pink",
+        image: "IMG/JP1.jpg",
+        link: "https://ar.swarovski.sa/%D8%B3%D9%88%D8%A7%D8%B1-millenia-%D9%82%D8%B7%D8%B9-%D9%85%D8%AB%D9%85%D9%86-%D9%84%D9%88%D9%86-%D9%85%D8%AA%D8%AF%D8%B1%D8%AC-%D9%84%D9%88%D9%86-%D9%88%D8%B1%D8%AF%D9%8A-%D8%B7%D9%84%D8%A7%D8%A1-%D8%A8%D9%84%D9%88%D9%86-%D8%B0%D9%87%D8%A8%D9%8A/5683428.html"
+    },
+    {
+        id: "Jp15",
+        productSection: "bracelets",
+        brand: "SWAROSVKI",
+        name: "Matrix Tennis bracelets",
+        undertone: "cool",
+        color: "Material & Color: Rhodium plating, Crystal, Zirconia",
+        image: "IMG/JP2.png",
+        link: "https://ar.swarovski.sa/%D8%B3%D9%88%D8%A7%D8%B1-matrix-tennis-%D9%82%D8%B7%D8%B9-%D9%85%D8%AA%D9%86%D9%88%D8%B9-%D9%84%D9%88%D9%86-%D8%A3%D8%B2%D8%B1%D9%82-%D8%B7%D9%84%D8%A7%D8%A1-%D8%B1%D9%88%D8%AF%D9%8A%D9%88%D9%85/5693412.html"
+    },
+    {
+        id: "Jp16",
+        productSection: "bracelets",
+        brand: "VAN CLEEF & ARPELS",
+        name: "Vintage Alhambra bracelet, 5 motifs",
+        undertone: "warm",
+        color: "Material & Color: yellow gold, Carnelian",
+        image: "IMG/JP5.PNG",
+        link: "https://www.vancleefarpels.com/sa/ar/collections/jewelry/alhambra/vcard35500---vintage-alhambra-bracelet-5-motifs.html"
+    },
+    {
+        id: "Jp17",
+        productSection: "bracelets",
+        brand: "Damas Fireworks",
+        name: "Fireworks Fiesta Diamond and Precious Gem Bracelet in 18k Rose Gold",
+        undertone: "Neutral",
+        color: "Material & Color: Rose gold",
+        image: "IMG/JP6.PNG",
+        link: "https://www.damasjewellery.com/sa-en/jewellery/bracelet/brands-fireworks-fireworks-fiesta-diamond-and-precious-gem-bracelet-in-18k-rose-gold-frw-405-ft-br-r-p/"
+    },
+    {
+        id: "Jp18",
+        productSection: "bracelets",
+        brand: "MOH",
+        name: "",
+        undertone: "cool",
+        color: "Material & Color: Whit Gold",
+        image: "IMG/JP7.PNG",
+        link: "https://www.mohjewelry.com/ar/collections/bracelets-1/products/0416?variant=46075205681319"
+    },
+    {
+        id: "Jp19",
+        productSection: "bracelets",
+        brand: "Damas AL Qasr",
+        name: "AL Qasr Moonlight Bracelet",
+        undertone: "Neutral",
+        color: "Material & Color: White Gold",
+        image: "IMG/JP8.PNG",
+        link: "https://www.damasjewellery.com/sa-en/jewellery/bracelet/brands-al-qasr/al-qasr-moonlight-bracelet-alq-106-wb-br-rw/"
+    },
+    {
+        id: "Jp20",
+        productSection: "bracelets",
+        brand: "Damas Signature",
+        name: "Signature Bracelet",
+        undertone: "cool",
+        color: "Material & Color: White Gold",
+        image: "IMG/JP20.PNG",
+        link: "https://www.damasjewellery.com/sa-en/jewellery/bracelet/brands-signature/signature-bracelet-dms-343-wb-br/"
+    },
+    {
+        id: "Jp20",
+        productSection: "bracelets",
+        brand: "VAN CLEEF & ARPELS",
+        name: "Sweet Alhambra bracelet",
+        undertone: "warm",
+        color: "Material & Color: yellow gold, Mother-of-pearl",
+        image: "IMG/JP15.png",
+        link: "https://www.vancleefarpels.com/sa/en/collections/jewelry/alhambra/vcarf68800---sweet-alhambra-bracelet.html"
+    },
+    {
+        id: "Jp21",
+        productSection: "bracelets",
+        brand: "VAN CLEEF & ARPELS",
+        name: "Vintage Alhambra bracelet, 5 motifs",
+        undertone: "cool",
+        color: "Material & Color: white gold, Mother-of-pearl",
+        image: "IMG/JP17.png",
+        link: "https://www.vancleefarpels.com/sa/ar/collections/jewelry/alhambra/vcarf48400---vintage-alhambra-bracelet-5-motifs.html#group=nogroup&photo=0"
+    },
+    {
+        id: "Jp22",
+        productSection: "bracelets",
+        brand: "MOH",
+        name: "",
+        undertone: "cool",
+        color: "Material & Color: white gold plated",
+        image: "IMG/JP27.png",
+        link: "https://www.mohjewelry.com/ar/collections/bracelets-1/products/0375?variant=45635447128231"
+    },
+
+
+
+    {
+    id: "Jp23",
+    productSection: "rings",
+    brand: "DAMAS Fireworks",
+    name: "Fireworks Sparks Coloured Gemstone Adjustable Midi Ring",
+    undertone: "Neutral",
+    color: "Material & Color: Rose gold",
+    image: "IMG/JP8.png",
+    link: "https://www.damasjewellery.com/sa-en/jewellery/rings/brands-fireworks-fireworks-sparks-coloured-gemstone-adjustable-midi-ring-frw-001-sp-mr-r-8/"
+},
+{
+    id: "Jp24",
+    productSection: "rings",
+    brand: "FAYENDRA",
+    name: "925 Pure Silver Gold Plated Ring Inlaid with White Lobe",
+    undertone: "warm",
+    color: "Material & Color: yellow gold plated",
+    image: "IMG/JP13.jpg",
+    link: "https://fayendra.com/ar_001/shop/925-412368?category=252&attrib=4-15"
+},
+{
+    id: "Jp25",
+    productSection: "rings",
+    brand: "FAYENDRA",
+    name: "925 Solid Silver Plated Rhodium Plated Ring Studded with Crondom Sapphire and White Lobe",
+    undertone: "Cool",
+    color: "Material & Color: white gold plated, Sapphire Chronome",
+    image: "IMG/JP18.jpg",
+    link: "https://fayendra.com/ar_001/shop/925-412461?category=252#attr=449739,444326,464403"
+},
+{
+    id: "Jp26",
+    productSection: "rings",
+    brand: "DAMAS Giulia",
+    name: "Giulia Oval Motif with White Mother of Pearl 18K Yellow Gold Stackable",
+    undertone: "Warm",
+    color: "Material & Color: Yellow Gold",
+    image: "IMG/JP19.PNG",
+    link: "https://www.damasjewellery.com/sa-en/jewellery/rings/brands-guilia-giulia-oval-motif-with-white-mother-of-pearl-18k-yellow-gold-stackable-ring-size-12-giu-00m-im-rg-o12/"
+},
+{
+    id: "Jp27",
+    productSection: "rings",
+    brand: "FAYENDRA",
+    name: "25 Pure Silver Gold Plated Ring Inlaid with White Lobe",
+    undertone: "warm",
+    color: "Material & Color: Yellow gold plated, White Stones",
+    image: "IMG/JP20.jpg",
+    link: "https://fayendra.com/ar_001/shop/925-412212?page=2&category=252&attrib=4-15#attr=449450,444077,463907"
+},
+{
+    id: "Jp28",
+    productSection: "rings",
+    brand: "FAYENDRA",
+    name: "925 Solid Silver Plated Rhodium Ring Studded with Zircon Pink and White Lobe",
+    undertone: "Cool",
+    color: "Material & Color: white gold plated, Zircon Pink",
+    image: "IMG/JP23.jpg",
+    link: "https://fayendra.com/ar_001/shop/925-398926?page=2&category=252&attrib=4-14&attrib=3-81#attr=424705,421214,427044"
+}
+
+];
+
+// استرجاع حالة المفضلة من التخزين المحلي
+function getFavorites() {
+    return JSON.parse(localStorage.getItem("favorites")) || [];
+}
+
+// تحديث حالة المفضلة في التخزين المحلي
+function saveFavorites(favorites) {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+}
+
+// توليد المنتجات ديناميكيًا داخل الأقسام
+function generateProducts() {
+    products.forEach(product => {
+        const container = document.getElementById(product.productSection);
+        if (container) {
+            container.innerHTML += `
+                <div class="product ${product.undertone.toLowerCase()}" id="${product.id}">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                        <button class="favorite-btn" data-id="${product.id}">
+                            <i class='bx bxs-heart'></i>
+                        </button>
+                    </div>
+                    <span class="brand">${product.brand}</span>
+                    <h4>${product.name}</h4>
+                    <span class="undertone">Undertone: ${product.undertone}</span>
+                    <span class="color">Material & Color: ${product.color}</span>
+                    <a href="${product.link}" target="_blank">
+                        <button class="view-btn">View Product</button>
+                    </a>
+                </div>
+            `;
+        }
+    });
+
+    // استدعاء تشغيل زر المفضلة بعد إضافة المنتجات
+    setupFavoriteButtons();
+}
+
+// تشغيل زر المفضلة وتخزين البيانات
+function setupFavoriteButtons() {
+    let favorites = getFavorites();
+    
+    document.querySelectorAll(".favorite-btn").forEach(button => {
+        const productId = button.getAttribute("data-id");
+
+        // تفعيل الزر إذا كان المنتج في المفضلة
+        if (favorites.includes(productId)) {
+            button.classList.add("active");
+        }
+
+        button.addEventListener("click", function() {
+            if (favorites.includes(productId)) {
+                favorites = favorites.filter(id => id !== productId);
+                this.classList.remove("active");
+            } else {
+                favorites.push(productId);
+                this.classList.add("active");
+            }
+
+            saveFavorites(favorites);
+        });
+    });
+}
+
+// تحريك السلايدر
+function moveSlider(productSectionId, direction) {
+    const container = document.getElementById(productSectionId);
+    const scrollAmount = 270; 
+
+    container.scrollBy({
+        left: direction * scrollAmount,
+        behavior: 'smooth'
+    });
+}
+
+// تحميل المنتجات عند فتح الصفحة
+document.addEventListener("DOMContentLoaded", generateProducts);
+
+
+
+
+//فلتر الاندرتون 
+function openFilter() {
+    document.getElementById("filterSidebar").classList.add("open");
+}
+
+function closeFilter() {
+    document.getElementById("filterSidebar").classList.remove("open");
+}
+
+function toggleDropdown(id) {
+    const dropdown = document.getElementById(id);
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
+/* فلتر الااندرتون */
+function applyFilter() {
+    const undertones = [...document.querySelectorAll(".undertone:checked")].map(e => e.value.toLowerCase());
+    const products = document.querySelectorAll(".product");
+
+    let isFiltered = false;
+    products.forEach(product => {
+        product.style.display = "none";
+
+        const hasMatchingUndertone = undertones.length === 0 || undertones.some(tone => product.classList.contains(tone));
+
+        if (hasMatchingUndertone) {
+            product.style.display = "block";
+            isFiltered = true;
+        }
+    });
+
+    const messageElement = document.getElementById('filterMessage');
+    if (!isFiltered) {
+        messageElement.textContent = "لا توجد نتائج مطابقة للفلاتر التي اخترتها.";
+    } else {
+        messageElement.textContent = "";
+    }
+}
+
+function moveSlider(sliderId, direction) {
+    let slider = document.getElementById(sliderId);
+    let scrollAmount = 270;
+
+    slider.style.transition = "transform 0.3s ease";
+    slider.scrollBy({
+        left: direction * scrollAmount,
+        behavior: "smooth"
+    });
+}
+</script>
