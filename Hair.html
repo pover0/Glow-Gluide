@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="Hair.js"></script>
+    <link rel="stylesheet" href="Hair.css">
+    <title>Haier Dey</title>
+</head>
+
+<body>
+
+    <!-- زر فتح الفلتر -->
+    <div class="filter">
+        <button class="filter-btn" onclick="openFilter()"><i class='bx bx-filter'></i></button>
+    </div>
+
+    <!-- الفلتر الجانبي -->
+    <div class="filter-sidebar" id="filterSidebar">
+        <span class="close-btn" onclick="closeFilter()">X</span>
+        <h3>Filter by Hair Dye</h3>
+
+        <div class="dropdown">
+            <label onclick="toggleDropdown('undertone')">Undertone ▼</label>
+            <div class="dropdown-content" id="undertone">
+                <label><input type="checkbox" name="undertone" id="cool" value="Cool" class="undertone"> Cool</label>
+                <label><input type="checkbox" name="undertone" id="neutral" value="Neutral" class="undertone"> Neutral</label>
+                <label><input type="checkbox" name="undertone" id="warm" value="Warm" class="undertone"> Warm</label>
+            </div>
+        </div>
+
+        <button onclick="applyFilter()">Done</button>
+    </div>    
+
+    <!-- أقسام المنتجات -->
+    <div class="category-section">
+        <h3>Hair Dye</h3>
+        <div class="product-slider">
+            <div class="product-container" id="hair"></div>
+        </div>
+        <div class="slider-buttons">
+            <button class="slider-btn" onclick="moveSlider('hair', -1)">⮜</button>
+            <button class="slider-btn" onclick="moveSlider('hair', 1)">⮞</button>
+        </div>
+    </div>
+    
+
+    <footer id="footer">
+        <p>Copyright &copy; 2025 All rights reserved | made by Glow Gluide Team</p>
+    </footer>    
+    
+    <p id="filterMessage"></p>
+
+</body>
+</html>
+<style>
+    /* خلفية الموقع بتدرجات مطابقة للصورة */
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(255, 244, 223);
+    color: #333;
+}
+
+/* اسم الفئة */
+.hero h2 {
+    font-size: 100px;
+    font-family: 'Calibri';
+    color: #333;
+}
+
+.products h2 {
+    font-size: 40px;
+    font-family: 'Calibri';
+    color: #333;
+    margin-top: 20px;
+}
+
+/* --------------------------------------------------- الفلتر */
+.filter-sidebar.open {
+    right: 0;
+}
+
+.dropdown {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.dropdown-content {
+    display: none;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.dropdown-content label {
+    display: block;
+    margin: 5px 0;
+}
+
+/* ---------------------------------------------- زر الابديت */
+button {
+    padding: 10px;
+    background: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+}
+
+/* صفحة الفلتر -------------------------------------------- */
+
+.filter-btn i {
+    font-size: 1.5rem; /* يمكنك تغيير القيمة حسب الحجم الذي تريده */
+}
+
+/* تنسيق الزر */
+.filter-btn {
+    padding: 20px;
+    background-color: #333;
+    border: none;
+    cursor: pointer;
+    color: white;
+    border-radius: 5px;
+    margin: 16px;
+    font-size: 1rem;
+    display: block;
+    width: fit-content;
+    margin-right: 15px;
+    margin-left: auto;
+    margin-top: 20px;
+}
+
+/* تنسيق الزر في الجهة العلوية اليسرى */
+
+/* ------------------------------------------ خلفية صفحة الفلتر */
+.filter-sidebar {
+    position: fixed;
+    right: -300px;
+    top: 0;
+    width: 250px;
+    height: 40%;
+    background: #f4f4f4;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    transition: right 0.3s ease;
+    z-index: 1000;
+    background: whitesmoke;
+    border-radius: 25px 0 25px 25px;
+    border: none;
+}
+
+.filter-sidebar h3 {
+    margin-bottom: 30px;
+    color: #333;
+    text-align: left;
+    margin-top: 20%;
+}
+
+.filter-sidebar label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* ---------------------------------------- زر الاغلاق */
+.close-btn {
+    cursor: pointer;
+    color: rgb(168, 20, 20);
+    font-size: 20px;
+    display: block;
+    text-align: left;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.category-section {
+    margin-bottom: 40px;
+}
+
+.category-section h3 {
+    font-size: 40px;
+    color: #333;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+    padding-bottom: 10px; 
+}
+
+.product-container {
+    display: flex;
+    gap: 20px; /* المسافة بين المنتجات */
+    overflow-x: auto; /* تمكين التمرير الأفقي */
+    scroll-behavior: smooth;
+    padding: 10px 0;
+}
+
+/* ------------------------------------------------- مظهر بوكس المنتجات */
+.product-list {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* ✅ ضبط الـ product بحيث يكون الزر داخل الصورة */
+/* ✅ ضبط الـ product بحيث يكون الزر داخل الصورة */
+.product {
+    background: rgb(232, 217, 190);
+    padding: 15px;
+    border-radius: 10px;
+    width: 250px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    flex: 0 0 auto;
+    position: relative;  /* مهم لإعطاء مرجعية للزر */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 550px;
+}
+
+/* ✅ الحاوية الثابتة للأزرار */
+.product-footer {
+    position: absolute;  /* جعل الزر ثابتًا في الأسفل */
+    bottom: 15px;  /* تحديد المسافة من الأسفل */
+    left: 15px;
+    right: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+}
+
+/* ✅ زر "View Product" */
+.view-btn {
+    background-color: #8a6751;
+    color: white;
+    border: none;
+    padding: 12px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin-top: auto;
+}
+
+
+.view-btn:hover {
+    background-color: #5c3e2a;
+}
+
+.product:hover {
+    transform: scale(1.05);
+}
+
+/* ✅ ضبط الصورة */
+.product img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.product h4 {
+    color: #2e2e30;
+    text-align: center;
+    margin-bottom: 10px; /* تقليل المسافة أسفل الاسم */
+}
+
+.product .color, 
+.product .undertone, 
+.product .material { /* أضف material إذا كنت بحاجة لتنسيق هذا الحقل */
+    display: block;
+    font-size: 15px; /* تقليل حجم الخط */
+    color: #555;
+    margin-bottom: 5px; /* تقليل المسافة بين العناصر */
+}
+
+.product .color,
+.product .undertone {
+    margin-top: 5px; /* تقليل المسافة بين العنصرين */
+}
+
+/* ✅ الحاوية الثابتة للأزرار */
+
+
+/* Slider Buttons */
+.slider-buttons {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+.slider-btn {
+    background-color: #423025;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.slider-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* ✅ زر المفضلة يكون داخل الصورة بالزاوية العلوية اليمنى */
+.favorite-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.favorite-btn i {
+    color: rgb(133, 133, 133);
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out; /* إضافة تأثير الانتقال للـ transform */
+}
+
+.favorite-btn.active i {
+    color: rgb(220, 2, 2);
+    transform: scale(1.2); /* تكبير الأيقونة */
+}
+
+
+
+/* ✅ إخفاء شريط التمرير أسفل السلايدر */
+.product-necklaces,
+.product-Earrings,
+.product-Bracelets,
+.product-Rings {
+    display: flex;
+    overflow-x: auto; /* لجعل التمرير أفقي */
+    gap: 30px;
+    scroll-behavior: smooth;
+    padding: 20px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE & Edge */
+}
+
+.product-necklaces::-webkit-scrollbar,
+.product-Earrings::-webkit-scrollbar,
+.product-Bracelets::-webkit-scrollbar,
+.product-Rings::-webkit-scrollbar {
+    display: none; /* إخفاء شريط التمرير */
+}
+
+/* -------------------------------------------------------------- الفوتر */
+
+#footer {
+    background-color: #383848;
+    text-align: center;
+    color: #fff;
+    padding: 15px 0;
+    font-size: 14px;
+}
+
+/* استجابة للشاشات الصغيرة */
+@media (max-width: 768px) {
+    .product-list {
+        flex-direction: column;
+    }
+
+    .view-btn {
+        width: 100%; /* جعل الزر يشغل العرض بالكامل في الشاشات الصغيرة */
+    }
+
+    .slider-btn {
+        font-size: 16px; /* تقليل حجم الخط في الأزرار */
+    }
+}
+
+</style>
+<script>
+    const products = [
+    {
+        id: "Hp1",
+        productSection: "hair",
+        brand: "L'oréal Paris",
+        name: "Iced Brunette",
+        undertone: "Cool",
+        color: "Iced Brunette",
+        image: "HIMG/HP1C.png",
+        linkurl: "https://www.lorealparisusa.com/hair-color/hair-highlights/feria-power-toner-long-lasting-anti-brass-brunette-toner",
+    },
+    {
+        id: "Hp2",
+        productSection: "hair",
+        brand: "L'oréal Paris",
+        name: "Deep Dark Brown",
+        undertone: "Cool",
+        color: "Deep Dark Brown",
+        image: "HIMG/HP2C.jpg",
+        link: "https://www.amazon.sa/-/en/LOréal-Paris-Excellence-Crème-Permanent/dp/B07MVZYZ5M/ref=sr_1_3?adgrpid=166902490706&dib=eyJ2IjoiMSJ9.9Mmwgih9EmBaaAIcjRcFyOUsiUDKWEJU_b9Gi-xCxVWGkQceroajQxrD88sTZK4FG4hRSyxR1XKTBqXVmyPK57iMcl3u3d6gY_WNd1SR9kaCKBilny6mnuQKBhuZp1EWhtoppXLh8RmsEvq--wU57G5bSmVo4N3h3tFh5mbUf4rn7BtdFrzkQkgISEjbpbKUUFxRG2p0HLtRQua1O3x4oK7TkLdRr7_2znwK-OtPP6JM_yDc0msND9e0wFxjspXiDi744G1-5LyGh5TqBCj9jqEoS7bvPz8kob921IqNTKgwlA3jIWZOojFNGTrd6uFjzYe_LhKwldDcYiU05vfLy-q3XNxPQ3k73N6UWGUeHQsYcbp_-DfVuqP0n7X-EvqbVEY8vwH_SHwNQtnvbVqM60XmCBFFa8MVcFUwpXk71W5R0YyTFEWskoRR4-hMWPuw.DMPobdJUKonbXafZkdeuQ2CMi2g8L3TkZJXLHSLkxak&dib_tag=se&hvadid=713343189334&hvdev=c&hvlocphy=9196139&hvnetw=g&hvqmt=b&hvrand=222018238689591523&hvtargid=kwd-297741533665&hydadcr=18765_2333499&keywords=loreal+hair+dye+dark+brown&qid=1741022847&sr=8-3"
+    },
+    {
+        id: "Hp3",
+        productSection: "hair",
+        brand: "L'oréal Paris",
+        name: "7LA Lightest Auburn",
+        undertone: "Cool",
+        color: "7LA Lightest Auburn",
+        image: "HIMG/HP3C.PNG",
+        link: "https://www.lorealparisusa.com/hair-color/permanent/superior-preference-fade-defying-shine-permanent-hair-color-7la-lightest-auburn"
+    },
+    {
+        id: "Hp4",
+        productSection: "hair",
+        brand: "L'oréal Paris",
+        name: "R48 Red Velvet",
+        undertone: "Cool",
+        color: "R48 Red Velvet",
+        image: "HIMG/HP4C.PNG",
+        link: "https://sa.iherb.com/pr/l-or-al-feria-power-reds-high-intensity-shimmering-colour-r48-red-velvet-1-application/129016?gad_source=1&gclid=EAIaIQobChMIyLD3xr3uiwMVyFFBAh1EFjK6EAQYASABEgKCffD_BwE&gclsrc=aw.ds"
+    },
+    {
+        id: "Hp5",
+        productSection: "hair",
+        brand: "L'oréal Paris",
+        name: "Auburn Rose52",
+        undertone: "Cool",
+        color: "Auburn Rose52",
+        image: "HIMG/HP5C.PNG",
+        link: "https://www.lorealparisusa.com/hair-color/permanent/feria-multi-faceted-shimmering-permanent-hair-color-52-auburn-rose"
+    },
+    {
+        id: "Hp6",
+        productSection: "hair",
+        brand: "L'oréal Paris",
+        name: "Cool Brunette",
+        undertone: "Cool",
+        color: "Cool Brunette",
+        image: "HIMG/HP6C.PNG",
+        link: "https://www.lorealparisusa.com/hair-color/hair-gloss/color-gloss-one-step-in-shower-toning-gloss-cool-brunette"
+    },
+    {
+        id: "Hp7",
+        productSection: "hair",
+        brand: "Garnier",
+        name: "Deep Ashy Blonde",
+        undertone: "Cool",
+        color: "Deep Ashy Blonde",
+        image: "HIMG/HP7C.jpg",
+        link: "https://www.amazon.sa/-/en/Garnier-Color-Naturals-7-11-Blonde/dp/B07MW43DLV/ref=asc_df_B07MW43DLV/?tag=sashogostdde-21&linkCode=df0&hvadid=703858216762&hvpos=&hvnetw=g&hvrand=3675913663633319922&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-798927793644&mcid=d2ce6f40602038fe8260db4a21e6091f&gad_source=1&th=1"
+    },
+    {
+        id: 'Hp8',
+        productSection: "hair",
+        brand: 'Wella',
+        name: "",
+        undertone: 'Cool',
+        color: 'Ultra Light Ash Blonde',
+        image: 'HIMG/HP8C.jpg',
+        link: 'https://www.amazon.sa/-/en/Wella-Koleston-Intense-Color-Blonde/dp/B0BPCV6NC9/ref=asc_df_B0BPCV6NC9/?tag=sashogostdde-21&linkCode=df0&hvadid=703955797595&hvpos=&hvnetw=g&hvrand=3134074897339723474&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-1966610432095&mcid=5f7df4947a5c3634903e11529972bedd&gad_source=1&th=1'
+    },
+    {
+        id: 'Hp9',
+        productSection: "hair",
+        brand: 'Palette',
+        name:'Blue Black',
+        undertone: 'Cool',
+        color: 'Blue Black',
+        image: 'HIMG/HP9C.jpg',
+        link: 'https://www.amazon.sa/-/en/Palette-Schwarzkopf-Intensive-Color-Creme/dp/B07MW2MWVH/ref=asc_df_B07MW2MWVH/?tag=sashogostdde-21&linkCode=df0&hvadid=703888588501&hvpos=&hvnetw=g&hvrand=14228897473800918066&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-833790858437&mcid=5ad326c78dee31cb9d3bd827a699c369&gad_source=1&th=1'
+    },
+    {
+        id: 'Hp10',
+        productSection: "hair",
+        brand: 'Wella',
+        name:'Black',
+        undertone: 'Cool',
+        color: 'Black',
+        image: 'HIMG/HP10C.jpg',
+        link: 'https://www.amazon.sa/صبغة-الشعر-ويلا-كولستون-إنتنس/dp/B00P7K98RE/ref=asc_df_B00P7K98RE/?tag=sapcshop-21&linkCode=df0&hvadid=704026955261&hvpos=&hvnetw=g&hvrand=9836652569162072348&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-776935658570&mcid=7474f01e4aea3d42ac9aee3b863fb3c9&gad_source=1&th=1'
+    },
+    {
+        id: 'Hp11',
+        productSection: "hair",
+        brand: 'Garnier ',
+        name:'Chocolate ',
+        undertone: 'cool',
+        color: 'Chocolate ',
+        image: 'HIMG/HP11C.jpg',
+        link: 'https://www.amazon.sa/-/en/LOreal-Paris-Colorista-Permanent-Colour/dp/B078WCVN7S/ref=asc_df_B078WCVN7S/?tag=sashogostdde-21&linkCode=df0&hvadid=710508093078&hvpos=&hvnetw=g&hvrand=3490758767469244562&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-938327089832&mcid=5f7df4947a5c3634903e11529972bedd&gad_source=1&th=1'
+    },
+    {
+        id: 'Hp12',
+        productSection: "hair",
+        brand: 'LOréal Paris',
+        name:'Blush Blonde ',
+        undertone: 'Neutral',
+        color: 'Blush Blonde ',
+        image: "HIMG/HP12N.jpg",
+        link: 'https://www.amazon.sa/-/en/Schwarzkopf-Permanent-Hair-Colorant-Dark/dp/B00MJOCF4C/ref=asc_df_B00MJOCF4C/?tag=sashogostdde-21&linkCode=df0&hvadid=711926191815&hvpos=&hvnetw=g&hvrand=7685691256769340539&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-394705515870&mcid=5f7df4947a5c3634903e11529972bedd&gad_source=1&th=1'
+    },
+    {
+        id: 'Hp13',
+        productSection: "hair",
+        brand: 'LOréal Paris ',
+        name:'Light Dark Blonde ',
+        undertone: 'neutral',
+        color: 'Light Dark Blonde ',
+        image: "HIMG/HP13.jpg",
+        link: 'https://www.amazon.sa/-/en/Garnier-Nutrisse-Permanent-Hair-Color/dp/B00M2DCXL4/ref=asc_df_B00M2DCXL4/?tag=sashogostdde-21&linkCode=df0&hvadid=711567536960&hvpos=&hvnetw=g&hvrand=2290490400577753495&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-439383849957&mcid=5f7df4947a5c3634903e11529972bedd&gad_source=1&th=1'
+    },
+
+    {
+        id: 'Hp14',
+        productSection: 'hair',
+        brand: "L'Oréal Paris",
+        name:'Blonde',
+        undertone: 'Neutral',
+        color: 'Blonde',
+        image: 'HIMG/HP14N.jpg',
+        link: 'https://www.amazon.sa/-/en/LOréal-Paris-Prodigy-7-0-Blonde/dp/B07G2HRXP4/ref=asc_df_B07G2HRXP4/?tag=sashogostdde-21&linkCode=df0&hvadid=703858216762&hvpos=&hvnetw=g&hvrand=3045095490212451921&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-817292497183&mcid=e821b7413f933e9ab69cad0e314c5083&gad_source=1&th=1'
+    },
+    {
+        id: 'Hp15',
+        productSection: 'hair',
+        brand: 'Garnier Olia',
+        name: "Almond",
+        undertone: 'Neutral',
+        color: 'Almond',
+        image: 'HIMG//HP15N.jpg',
+        link: 'https://www.amazon.sa/-/en/Garnier-Ammonia-Permanent-Color-Almond/dp/B08CFSJSJ8/ref=asc_df_B08CFSJSJ8/?tag=sashogostdde-21&linkCode=df0&hvadid=703955797595&hvpos=&hvnetw=g&hvrand=10684839053694422955&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-948480436951&mcid=ad668aa21fbf33ef9ca463f42f9accc0&gad_source=1&th=1'
+    },
+    {
+        id: 'Hp16',
+        productSection: 'hair',
+        brand: 'Wella',
+        name: "Deer Brown",
+        undertone: 'Neutral',
+        color: 'Deer Brown',
+        image: 'HIMG/HP16N.jpg',
+        link: 'https://www.amazon.sa/-/en/Wella-Koleston-Supreme-Color-Brown/dp/B07LG4788Y/ref=asc_df_B07LG4788Y/?tag=sashogostdde-21&linkCode=df0&hvadid=703888588501&hvpos=&hvnetw=g&hvrand=13735577649736282921&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-1002786882912&mcid=9ef9e59923013f798f34022435dc6111&gad_source=1&th=1'
+    },
+    {
+        id: 'Hp17',
+        productSection: 'hair',
+        brand: 'Garnier',
+        name: "Fiery Pure Red",
+        undertone: 'Neutral',
+        color: 'Fiery Pure Red',
+        image: 'HIMG/HP17N.jpg',
+        link: 'https://www.amazon.sa/-/en/Garnier-Color-Naturals-6-60-Fiery/dp/B08QQYY6R6/ref=asc_df_B08QQYY6R6/?tag=sashogostdde-21&linkCode=df0&hvadid=703926395017&hvpos=&hvnetw=g&hvrand=7967379375605620740&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-1188617325839&mcid=cba25f0b85ff3badb41da5e2758104ed&gad_source=1&th=1'
+    },
+    {
+        id: 'Hp18',
+        productSection: 'hair',
+        brand: 'Wella',
+        name: "Chestnut",
+        undertone: 'Neutral',
+        color: 'Chestnut',
+        image: 'HIMG/HP18N.jpg',
+        link: 'https://www.amazon.sa/-/en/Wella-Koleston-Intense-Color-Chestnut/dp/B07MVYKKLB/ref=asc_df_B07MVYKKLB/?tag=sashogostdde-21&linkCode=df0&hvadid=703955797595&hvpos=&hvnetw=g&hvrand=514990182043333735&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-816950920218&mcid=a9604a362d8c30db8c1a329a4ae8ffe0&gad_source=1&th=1'
+    },
+    {
+        id: 'Hp19',
+        productSection: 'hair',
+        brand: 'Palette',
+        name: "Marsala Brown",
+        undertone: 'Neutral',
+        color: 'Marsala Brown',
+        image: 'HIMG/HP19N.jpg',
+        link: 'https://www.amazon.sa/-/en/Palette-Schwarzkopf-Intensive-Color-Marsala/dp/B07MW3CKV9/ref=asc_df_B07MW3CKV9/?tag=sashogostdde-21&linkCode=df0&hvadid=703955797595&hvpos=&hvnetw=g&hvrand=514990182043333735&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-815151446854&mcid=5dbc4131545c3f3e8503e24f73fe5e81&gad_source=1&th=1'
+    },
+    {
+        id: 'Hp20',
+        productSection: 'hair',
+        brand: 'Clairol',
+        name: "Light Auburn",
+        undertone: 'Neutral',
+        color: 'Light Auburn',
+        image: 'HIMG//HP20N.jpg',
+        link: 'https://www.amazon.sa/-/en/Clairol-Nicen-Permanent-Color-Auburn/dp/B079R7ZD6W/ref=asc_df_B079R7ZD6W/?tag=sashogostdde-21&linkCode=df0&hvadid=703926395017&hvpos=&hvnetw=g&hvrand=6660453803553952515&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-573543341172&mcid=da0f736cad1037fc850b0f9c1dd7f9c6&gad_source=1&th=1'
+    },
+    {
+        id: 'Hp21',
+        productSection: 'hair',
+        brand: "L'Oréal Paris",
+        name: "R57 Cherry Crush",
+        undertone: 'Neutral',
+        color: 'R57 Cherry Crush',
+        image: 'HIMG/HP21N.PNG',
+        link: 'https://sa.iherb.com/pr/l-or-al-feria-power-red-high-intensity-shimmering-colour-r57-cherry-crush-1-application/93971?gad_source=1&gclid=EAIaIQobChMI58L32PLuiwMVOoN8Bh2R7gBBEAQYGCABEgLcrfD_BwE&gclsrc=aw.ds'
+    },
+    {
+        id: 'Hp22',
+        productSection: 'hair',
+        brand: 'Wella',
+        name: "Dark Golden Blonde",
+        undertone: 'Neutral',
+        color: 'Dark Golden Blonde',
+        image: 'HIMG/HP22N.jpg',
+        link: 'https://www.amazon.sa/-/en/Wella-Koleston-Supreme-Infinite-Medium/dp/B07LG5S7RQ/ref=asc_df_B07LG5S7RQ/?tag=sashogostdde-21&linkCode=df0&hvadid=703888588501&hvpos=&hvnetw=g&hvrand=1199887760135850571&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-768303963500&mcid=4223ee1b6a703f298cbbb62ac6df13f6&gad_source=1&th=1'
+    },
+    {
+        id: 'Hp23',
+        productSection: 'hair',
+        brand: "L'Oréal Paris",
+        name: "Dark Golden Blonde",
+        undertone: 'Warm',
+        color: 'Dark Golden Blonde',
+        image: 'HIMG/HP23W.jpg',
+        link: 'https://www.amazon.sa/-/en/LOréal-Paris-Prodigy-Golden-Blonde/dp/B07C1T7YR1/ref=asc_df_B07C1T7YR1/?tag=sashogostdde-21&linkCode=df0&hvadid=703888588501&hvpos=&hvnetw=g&hvrand=15408580919901177854&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-824144032012&mcid=6f218b55f4b2313096fc08cef0573fee&gad_source=1&th=1'
+    },
+    {
+        id: 'Hp24',
+        productSection: 'hair',
+        name: "Harmony Brown",
+        brand: 'Wella',
+        undertone: 'Warm',
+        color: 'Harmony Brown',
+        image: 'HIMG/HP24W.jpg',
+        link: 'https://www.amazon.sa/-/en/Wella-Koleston-Supreme-Color-Harmony/dp/B07NVCDXVD/ref=asc_df_B07NVCDXVD/?tag=sashogostdde-21&linkCode=df0&hvadid=703955797595&hvpos=&hvnetw=g&hvrand=8783076776584749744&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-816672034476&mcid=b68dd46fa4ba32fa92aeda3ff96d53e4&gad_source=1&th=1'
+    },
+    {
+        id: 'Hp25',
+        productSection: 'hair',
+        name: "Dazzling Hazelnut",
+        brand: 'Wella',
+        undertone: 'Warm',
+        color: 'Dazzling Hazelnut',
+        image: 'HIMG/HP25W.jpg',
+        link: 'https://www.amazon.sa/-/en/Wella-Koleston-Supreme-Dazzling-Hazelnut/dp/B07LG56XSM/ref=asc_df_B07LG56XSM/?tag=sashogostdde-21&linkCode=df0&hvadid=703858216762&hvpos=&hvnetw=g&hvrand=9133057939036279672&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-813841526056&mcid=e2f4051b291c338c868a074da24ba664&gad_source=1&th=1'
+    },
+{
+    id: 'Hp33',
+    productSection: 'hair',
+    brand: 'Wella',
+    name: 'Light Brown',
+    undertone: 'Warm',
+    color: 'Light Brown',
+    image: 'HIMG/HP33W.jpg',
+    "link": 'https://www.amazon.sa/-/en/Wella-Koleston-Intense-Color-Light/dp/B00P7K9XO2/ref=asc_df_B00P7K9XO2/?tag=sashogostdde-21&linkCode=df0&hvadid=703858216762&hvpos=&hvnetw=g&hvrand=14843318047250412782&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-817277266078&mcid=12fed872bf663d4ebcd8572c8dc03dce&gad_source=1&th=1"'
+},
+{
+    id: "Hp32",
+    productSection: "hair",
+    brand: "L'Oréal Paris",
+    name: "Honey Brown",
+    undertone: "Warm",
+    color: "Honey Brown",
+    image: "HIMG/HP32W.PNG",
+    "link": "https://www.noon.com/saudi-en/excellence-triple-care-color-7-7-honey-brown/N11266019A/p/?o=e2fdbe85a4784d1d&utm_source=c1000087L&utm_medium=cpc&utm_campaign=C1000169542N_sa_en_web_supermallxxcategorymixxx19022025_noon_web_c1000087l_experiment_plassc_&gad_source=1&gbraid=0AAAAADH71hhL4H9g5eT0Y-BepFsDN_dP6&gclid=EAIaIQobChMI8J2Qy4bxiwMVEAYGAB1gWBu_EAQYBCABEgJ9JPD_BwE"
+},
+{
+    id: "Hp31",
+    productSection: "hair",
+    brand: "Wella",
+    name: "Medium Blonde",
+    undertone: "Warm",
+   color:"Medium Blonde",
+   image: "HIMG/HP31W.jpg",
+    "link": "https://www.amazon.sa/-/en/Wella-Koleston-Supreme-Medium-Blonde/dp/B07NVCJSTR/ref=asc_df_B07NVCJSTR/?tag=sashogostdde-21&linkCode=df0&hvadid=703926395017&hvpos=&hvnetw=g&hvrand=17893326503835613631&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-817420469508&mcid=b45c3477284c3e1aa32ff1efcdd6fa41&gad_source=1&th=1"
+},
+{
+    id: "Hp30",
+    productSection: "hair",
+    brand: "L'Oréal Paris",
+    name: "5CB Medium Chestnut Brown",
+    undertone: "Warm",
+    color:"5CB Medium Chestnut Brown",
+    image: "HIMG/HP30W.PNG",
+    "link": "https://www.lorealparisusa.com/hair-color/permanent/superior-preference-fade-defying-shine-permanent-hair-color-5cb-medium-chestnut-brown"
+},
+{
+    id: "Hp29",
+    productSection: "hair",
+    brand: "L'Oréal Paris",
+    name: "8G Medium Golden Blonde",
+    undertone: "Warm",
+    color: "8G Medium Golden Blonde",
+    image: "HIMG/HP29W.PNG",
+    "link": "https://www.lorealparisusa.com/hair-color/permanent/excellence-creme-permanent-triple-protection-hair-color-8g-medium-golden-blonde"
+},
+{
+    id: "Hp28",
+    productSection: "hair",
+    brand: "Wella",
+    name: "Chocolate Brown",
+    undertone: "Warm",
+   color:"Chocolate Brown",
+     image:"HIMG/HP28W.jpg",
+    "link": "https://www.amazon.sa/-/en/Wella-Koleston-Intense-Color-Chocolate/dp/B07MW3MM3C/ref=asc_df_B07MW3MM3C/?tag=sashogostdde-21&linkCode=df0&hvadid=703946673034&hvpos=&hvnetw=g&hvrand=15179803663849077085&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-815178436459&psc=1&mcid=a3c47339fb45381abdf16913194f03ab&gad_source=1"
+},
+{
+    id: "Hp27",
+    productSection: "hair",
+    brand: "Garnier Olia",
+    name: "Dark Brown",
+    undertone: "Warm",
+    color:"Dark Brown",
+    image: "HIMG/HP27W.jpg",
+    "link": "https://www.amazon.sa/-/en/Garnier-Ammonia-Permanent-Color-Brown/dp/B08CG13WY8/ref=asc_df_B08CG13WY8/?tag=sashogostdde-21&linkCode=df0&hvadid=703926395017&hvpos=&hvnetw=g&hvrand=8555426602812447292&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-948204969033&mcid=33b8668fc8f23f19816f8b3be37264e3&gad_source=1&th=1"
+},
+{
+    id: "Hp26",
+    productSection: "hair",
+    brand:"LOréal Paris",
+    name: "Brown",
+    undertone: "Warm",
+    color:"Brown",
+    image: "HIMG/HP26W.jpg",
+    link: "https://www.amazon.sa/-/en/LOréal-Paris-Prodigy-4-0-Brown/dp/B07G2DNXND/ref=asc_df_B07G2DNXND/?tag=sashogostdde-21&linkCode=df0&hvadid=703858216762&hvpos=&hvnetw=g&hvrand=496785556536055994&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9196139&hvtargid=pla-806756038684&mcid=3ebf9a4c847d3847ad2adac6b42bc7b7&gad_source=1&th=1"
+},
+
+  ]; 
+
+// استرجاع حالة المفضلة من التخزين المحلي
+function getFavorites() {
+    return JSON.parse(localStorage.getItem("favorites")) || [];
+}
+
+// تحديث حالة المفضلة في التخزين المحلي
+function saveFavorites(favorites) {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+}
+
+// توليد المنتجات ديناميكيًا داخل الأقسام
+function generateProducts() {
+    products.forEach(product => {
+        const container = document.getElementById(product.productSection);
+        if (container) {
+            container.innerHTML += `
+                <div class="product ${product.undertone.toLowerCase()}" id="${product.id}">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                        <button class="favorite-btn" data-id="${product.id}">
+                            <i class='bx bxs-heart'></i>
+                        </button>
+                    </div>
+                    <span class="brand">${product.brand}</span>
+                    <h4>${product.name}</h4>
+                    <span class="undertone">Undertone: ${product.undertone}</span>
+                    <span class="color">Material & Color: ${product.color}</span>
+                    <a href="${product.link}" target="_blank">
+                        <button class="view-btn">View Product</button>
+                    </a>
+                </div>
+            `;
+        }
+    });
+
+    // استدعاء تشغيل زر المفضلة بعد إضافة المنتجات
+    setupFavoriteButtons();
+}
+
+// تشغيل زر المفضلة وتخزين البيانات
+function setupFavoriteButtons() {
+    let favorites = getFavorites();
+    
+    document.querySelectorAll(".favorite-btn").forEach(button => {
+        const productId = button.getAttribute("data-id");
+
+        // تفعيل الزر إذا كان المنتج في المفضلة
+        if (favorites.includes(productId)) {
+            button.classList.add("active");
+        }
+
+        button.addEventListener("click", function() {
+            if (favorites.includes(productId)) {
+                favorites = favorites.filter(id => id !== productId);
+                this.classList.remove("active");
+            } else {
+                favorites.push(productId);
+                this.classList.add("active");
+            }
+
+            saveFavorites(favorites);
+        });
+    });
+}
+
+// التحكم في الشريط المتحرك للمنتجات
+function moveSlider(sliderId, direction) {
+    let slider = document.getElementById(sliderId);
+    let scrollAmount = 270;
+
+    slider.style.transition = "transform 0.3s ease";
+    slider.scrollBy({
+        left: direction * scrollAmount,
+        behavior: "smooth"
+    });
+}
+
+//فلتر الاندرتون 
+function openFilter() {
+    document.getElementById("filterSidebar").classList.add("open");
+}
+
+function closeFilter() {
+    document.getElementById("filterSidebar").classList.remove("open");
+}
+
+function toggleDropdown(id) {
+    const dropdown = document.getElementById(id);
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
+/* فلتر الااندرتون */
+function applyFilter() {
+    const undertones = [...document.querySelectorAll(".undertone:checked")].map(e => e.value.toLowerCase());
+    const products = document.querySelectorAll(".product");
+
+    let isFiltered = false;
+    products.forEach(product => {
+        product.style.display = "none";
+
+        const hasMatchingUndertone = undertones.length === 0 || undertones.some(tone => product.classList.contains(tone));
+
+        if (hasMatchingUndertone) {
+            product.style.display = "block";
+            isFiltered = true;
+        }
+    });
+
+    const messageElement = document.getElementById('filterMessage');
+    if (!isFiltered) {
+        messageElement.textContent = "لا توجد نتائج مطابقة للفلاتر التي اخترتها.";
+    } else {
+        messageElement.textContent = "";
+    }
+}
+
+function moveSlider(sliderId, direction) {
+    let slider = document.getElementById(sliderId);
+    let scrollAmount = 270;
+
+    slider.style.transition = "transform 0.3s ease";
+    slider.scrollBy({
+        left: direction * scrollAmount,
+        behavior: "smooth"
+    });
+}
+// توليد المنتجات عند تحميل الصفحة
+window.onload = generateProducts;
+
+</script>
